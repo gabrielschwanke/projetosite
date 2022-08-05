@@ -1,0 +1,71 @@
+{% extends 'perfil.html' %}
+
+{% block form_editar_perfil %}
+
+
+<div class="container">
+
+            <div class="row">
+                <div class="col">
+                    <form method="POST" action="" class="border p-4 mt-2" enctype="multipart/form-data" >
+                        <!--sempre que tiver usando um formulário que permita subir um arquivo tem que usar o parametro enctype="multipart/form-data" que é um tipo de criptografia para reconhecer a extensão do arquivo que ta subindo -->
+                        {{ form.csrf_token }}<!--O token tem que ficar logo abaixo do Form-->
+                        <legend>Editar Perfil</legend>
+                        <fieldset>
+                            <div class="form-group">
+                                <!--para colocar uma classe em uma variavel do python (class="form-control") -->
+                                {{ form.username.label (class="form-control-label")}}
+                                {% if form.username.errors %}
+                                    {{ form.username(class="form-control is-invalid") }}<!--para aparecer o erro no campo de username-->
+                                <div class="invalid-feedback">
+                                    {% for erro in form.username.errors %}
+                                        {{ erro }}
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                    {{ form.username(class="form-control") }}
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                <!--para colocar uma classe em uma variavel do python (class="form-control") -->
+                                {{ form.email.label (class="form-control-label")}}
+                                {% if form.email.errors %}
+                                    {{ form.email(class="form-control is-invalid") }}<!--para aparecer o erro no campo de email-->
+                                <div class="invalid-feedback">
+                                    {% for erro in form.email.errors %}
+                                        {{ erro }}
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                    {{ form.email(class="form-control") }}
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.foto_perfil.label }}
+                                {{ form.foto_perfil(class="form-control-file") }}
+                                {% if form.foto_perfil.errors %}
+                                    {% for erro in form.foto_perfil.errors %}
+                                        <span class="text-danger">{{erro}}</span><br>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <hr>
+                            <p>Cursos</p>
+                            {% for campo in form %}
+                                {% if 'curso_' in campo.name %}
+                                    <div class="form-group">
+                                        {{campo(class="form-check-input") }}
+                                        {{campo.label(class="form-check-label") }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+<!--fiz um for para percorrer todos arquivos que começam com curso_ para criar os campos-->
+                        </fieldset>
+                        {{ form.botao_submit_editarperfil(class="btn btn-dark mt-2") }}
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}
